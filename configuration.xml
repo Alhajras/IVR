@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>Application Configuration</comment>
+	<entry key="data.folder">D:\AppData</entry>
+	<entry key="jdbc.url">jdbc:mysql://localhost/mydb</entry>
+	<entry key="google.keyl">AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw</entry>
+	<entry key="language">en</entry>
+</properties>
