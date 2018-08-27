@@ -29,5 +29,6 @@
 	<classpathentry kind="lib" path="C:/Users/HG/Downloads/voices/voice-dfki-prudence-hsmm-5.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/HG/Downloads/voices/voice-dfki-spike-hsmm-5.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/HG/Downloads/voices/marytts-builder-5.2/lib/marytts-lang-de-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/HG/Downloads/eclipse-jee-photon-R-win32-x86_64/eclipse/lombok.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
