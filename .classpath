@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
-			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
@@ -17,18 +16,15 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libraries/marytts-builder-5.2-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="libraries/marytts-lang-en-5.2.jar"/>
-	<classpathentry kind="lib" path="libraries/voice-cmu-slt-hsmm-5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/HG/Downloads/voices/voice-bits1-hsmm-5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/HG/Downloads/voices/voice-bits3-hsmm-5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/HG/Downloads/voices/voice-cmu-bdl-hsmm-5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/HG/Downloads/voices/voice-cmu-rms-hsmm-5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/HG/Downloads/voices/voice-dfki-obadiah-hsmm-5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/HG/Downloads/voices/voice-dfki-poppy-hsmm-5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/HG/Downloads/voices/voice-dfki-prudence-hsmm-5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/HG/Downloads/voices/voice-dfki-spike-hsmm-5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/HG/Downloads/voices/marytts-builder-5.2/lib/marytts-lang-de-5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/HG/Downloads/eclipse-jee-photon-R-win32-x86_64/eclipse/lombok.jar"/>
+	<classpathentry kind="lib" path="D:/IVR/MarryTTS/SecondApproach/jars/jars/guava-22.0.jar"/>
+	<classpathentry kind="lib" path="D:/IVR/MarryTTS/SecondApproach/jars/jars/marytts-builder-5.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="D:/IVR/MarryTTS/SecondApproach/jars/jars/marytts-lang-en-5.2.jar"/>
+	<classpathentry kind="lib" path="D:/IVR/MarryTTS/SecondApproach/jars/jars/voice-cmu-rms-hsmm-5.2.jar"/>
+	<classpathentry kind="lib" path="D:/IVR/MarryTTS/SecondApproach/jars/jars/voice-cmu-slt-hsmm-5.2.jar"/>
+	<classpathentry kind="lib" path="D:/IVR/MarryTTS/SecondApproach/jars/jars/voice-dfki-poppy-hsmm-5.2.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse-jee-oxygen-3a-win32-x86_64/eclipse/lombok.jar"/>
+	<classpathentry kind="lib" path="D:/IVR/MarryTTS/SecondApproach/jars/EN/Voices/voice-cmu-bdl-hsmm-5.2.jar"/>
+	<classpathentry kind="lib" path="D:/IVR/MarryTTS/SecondApproach/jars/EN/Voices/voice-dfki-poppy-hsmm-5.2.jar"/>
+	<classpathentry kind="lib" path="D:/IVR/MarryTTS/SecondApproach/jars/EN/Voices/voice-dfki-spike-hsmm-5.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

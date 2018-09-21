@@ -1,5 +1,7 @@
 package Alexandra_The_Bot;
 
+import java.io.UnsupportedEncodingException;
+
 import marytts.TextToSpeech;
 import marytts.signalproc.effects.JetPilotEffect;
 
@@ -111,7 +113,14 @@ public class MarryTTS {
 		System.out.println(text);
 		// Check if it is already speaking
 		if (!tts.isSpeaking())
-			new Thread(() -> tts.speak(text, 2.0f, true, false)).start();
+			new Thread(() -> {
+				try {
+					tts.speak(text, 2.0f, true, false);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}).start();
 
 	}
 

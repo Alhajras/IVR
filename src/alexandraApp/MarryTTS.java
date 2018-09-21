@@ -1,5 +1,7 @@
 package alexandraApp;
 
+import java.io.IOException;
+
 import StaticsData.VoicesTTS;
 import marytts.TextToSpeech;
 import marytts.signalproc.effects.JetPilotEffect;
@@ -8,10 +10,11 @@ public class MarryTTS {
 
 	private final TextToSpeech tts = new TextToSpeech();
 	String oldText = "";
+	private static boolean writingFlag = true;
 
 	public MarryTTS(VoicesTTS voice) {
 		// ---------------MaryTTS Configuration-----------------------------
-//
+		//
 		tts.setVoice(voice.getVoice()); // male USA // best english voice
 
 		// JetPilotEffect
@@ -19,7 +22,8 @@ public class MarryTTS {
 		jetPilotEffect.setParams("amount:100");
 
 		// Apply the effects
-//				tts.getMarytts().setAudioEffects(jetPilotEffect.getFullEffectAsString());// + "+" +
+		// tts.getMarytts().setAudioEffects(jetPilotEffect.getFullEffectAsString());// +
+		// "+" +
 		// stadiumEffect.getFullEffectAsString());
 
 	}
@@ -85,7 +89,7 @@ public class MarryTTS {
 			speak("Hello babe how are you doing ?");
 
 		} else if (output.contains("stop speech recognition")) {// Stop Speech Recognition
-//			stopSpeechRecognition();
+			// stopSpeechRecognition();
 
 		} else { // Nothing matches here ?
 			System.out.println("Not entered on any else if statement");
@@ -100,10 +104,22 @@ public class MarryTTS {
 	 */
 	public void speak(String text) {
 		System.out.println(text);
+		if (writingFlag == false)
+			return;
+
+		writingFlag = false;
 		// Check if it is already speaking
 		if (!tts.isSpeaking())
-			new Thread(() -> tts.speak(text, 2.0f, true, false)).start();
+			new Thread(() -> {
+				try {
+					tts.speak(text, 2.0f, true, false);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}).start();
 
+		writingFlag = true;
 	}
 
 }

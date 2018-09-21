@@ -1,5 +1,6 @@
 package Try_MarryTTS_IF_Working;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -90,7 +91,14 @@ public class MaryTTSTester {
 		
 		//Loop infinitely
 		for (int i = 0; i < 150.000; i++)
-			arrayList.forEach(word -> tts.speak(word, 2.0f, false, true));
+			arrayList.forEach(word -> {
+				try {
+					tts.speak(word, 2.0f, false, true);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
 		
 	}
 	
@@ -116,7 +124,7 @@ public class MaryTTSTester {
 	//=========================================================================
 	//=========================================================================
 	//=========================================================================
-	public void tutorial_1_2_3_FromYoutube() {
+	public void tutorial_1_2_3_FromYoutube() throws UnsupportedEncodingException {
 		TextToSpeech tts = new TextToSpeech();
 		
 		//=========================================================================

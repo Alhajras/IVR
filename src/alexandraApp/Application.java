@@ -1,17 +1,15 @@
 package alexandraApp;
 
+import java.io.IOException;
 import java.util.Properties;
 
 import javax.sound.sampled.LineUnavailableException;
 
-import com.darkprograms.speech.microphone.Microphone;
-import com.darkprograms.speech.recognizer.GSpeechDuplex;
-import com.darkprograms.speech.recognizer.GSpeechResponseListener;
-import com.darkprograms.speech.recognizer.GoogleResponse;
-
 import StaticsData.Language;
 import StaticsData.VoicesTTS;
 import net.sourceforge.javaflacencoder.FLACFileWriter;
+import microphone.*;
+import recognizer.*;
 
 /**
  * This is where all begins .
@@ -72,7 +70,7 @@ public class Application {
 		new Thread(() -> {
 			try {
 				duplex.recognize(mic.getTargetDataLine(), mic.getAudioFormat());
-			} catch (LineUnavailableException | InterruptedException e) {
+			} catch (LineUnavailableException | InterruptedException | IOException e) {
 				e.printStackTrace();
 			}
 		}).start();
