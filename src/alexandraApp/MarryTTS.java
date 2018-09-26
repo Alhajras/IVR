@@ -110,15 +110,12 @@ public class MarryTTS {
 		writingFlag = false;
 		// Check if it is already speaking
 		if (!tts.isSpeaking())
-			new Thread(() -> {
-				try {
-					tts.speak(text, 2.0f, true, false);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}).start();
-
+			try {
+				tts.speak(text, 2.0f, true, false);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		writingFlag = true;
 	}
 

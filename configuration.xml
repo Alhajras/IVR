@@ -2,7 +2,11 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<comment>Application Configuration</comment>
-	<entry key="google.key">AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw</entry>
+	<entry key="google.key">AIzaSyDaAelunKyHPyVIlH2bCmlukMJNkjE-sxY</entry>
+	<!-- <entry key="google.key">AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw</entry> 
+		this is an old key for the mice usage -->
+	<entry key="google.file">D:\\IVR\\SharedFolderWinLinux\\asteriskOutput\\asterisk-recording.flac</entry>
 	<entry key="language">ENGLISH</entry>
 	<entry key="voice">ENGLISH_MALE_1</entry>
+	<entry key="file.status">D:\IVR\SharedFolderWinLinux\status.txt</entry>
 </properties>
