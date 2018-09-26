@@ -43,7 +43,6 @@ public class ComposerNovomind {
 			return "I could not find anything of what you said, can you repeat please.";
 		}
 
-		return content.toString().split("\"response\"")[1].replaceAll("\"", "").replaceAll("\\\\n",
-				"");
+		return content.toString().split("\"response\"")[1].replaceAll("\"", "").replaceAll("\\\\n", "");
 	}
 }

@@ -9,7 +9,7 @@ import marytts.signalproc.effects.JetPilotEffect;
 public class MarryTTS {
 
 	private final TextToSpeech tts = new TextToSpeech();
-	private static boolean writingFlag = true;
+	// private static boolean writingFlag = true;
 
 	public MarryTTS(VoicesTTS voice) {
 		// ---------------MaryTTS Configuration-----------------------------
@@ -27,10 +27,10 @@ public class MarryTTS {
 	 * @param text
 	 */
 	public void speak(String text) {
-		if (writingFlag == false)
-			return;
+		// if (writingFlag == false)
+		// return;
 
-		writingFlag = false;
+		// writingFlag = false;
 		// Check if it is already speaking
 		if (!tts.isSpeaking())
 			try {
@@ -39,7 +39,7 @@ public class MarryTTS {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		writingFlag = true;
+		// writingFlag = true;
 	}
 
 }

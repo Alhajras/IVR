@@ -27,7 +27,7 @@ public class GoogleApi {
 		String responseText = "";
 		// The path to the audio file to transcribe
 		String fileName = args[0];
-		System.out.println(encodeFileToBase64Binary(fileName));
+		// System.out.println(encodeFileToBase64Binary(fileName));
 		// Reads the audio file into memory
 		Path path = Paths.get(fileName);
 		byte[] data = Files.readAllBytes(path);
@@ -37,13 +37,13 @@ public class GoogleApi {
 		RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.FLAC)
 				.setSampleRateHertz(16000).setLanguageCode("en-US").build();
 		RecognitionAudio audio = RecognitionAudio.newBuilder().setContent(audioBytes).build();
-		System.out.println(audio.getUriBytes());
+		// System.out.println(audio.getUriBytes());
 		final String POST_PARAMS = "{\r\n" + "  \"config\": {\r\n" + "      \"encoding\": \"" + config.getEncoding()
 				+ "\",\r\n" + "      \"sampleRateHertz\": " + config.getSampleRateHertz() + ",\r\n"
 				+ "      \"languageCode\": \"" + config.getLanguageCode() + "\",\r\n"
 				+ "      \"enableWordTimeOffsets\": false\r\n" + "  },\r\n" + "  \"audio\": {\r\n"
 				+ "      \"content\":\"" + encodeFileToBase64Binary(fileName) + "\"\r\n" + "  }\r\n" + "}";
-		System.out.println(POST_PARAMS);
+		// System.out.println(POST_PARAMS);
 		URL obj = new URL("https://speech.googleapis.com/v1/speech:recognize?key=" + args[1]);
 		HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
 		postConnection.setRequestMethod("POST");
@@ -54,8 +54,9 @@ public class GoogleApi {
 		os.flush();
 		os.close();
 		int responseCode = postConnection.getResponseCode();
-		System.out.println("POST Response Code :  " + responseCode);
-		System.out.println("POST Response Message : " + postConnection.getResponseMessage());
+		// System.out.println("POST Response Code : " + responseCode);
+		// System.out.println("POST Response Message : " +
+		// postConnection.getResponseMessage());
 		BufferedReader in = new BufferedReader(new InputStreamReader(postConnection.getInputStream()));
 		String inputLine;
 		StringBuffer response = new StringBuffer();
@@ -64,10 +65,10 @@ public class GoogleApi {
 				responseText = inputLine.split("\"transcript\": ")[1].replaceAll("\"", "").replaceAll(",", "");
 			response.append(inputLine);
 		}
-		System.out.println(responseText);
+		// System.out.println(responseText);
 		in.close();
 		// print result
-		System.out.println(response.toString());
+		// System.out.println(response.toString());
 		return responseText;
 	}
 
