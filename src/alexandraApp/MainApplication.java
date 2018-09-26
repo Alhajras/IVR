@@ -1,22 +1,16 @@
 package alexandraApp;
 
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
-
-import javax.sound.sampled.LineUnavailableException;
-
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+import java.util.regex.Pattern;
 
 import StaticsData.Language;
 import StaticsData.VoicesTTS;
-import net.sourceforge.javaflacencoder.FLACFileWriter;
-import microphone.*;
-import recognizer.*;
 
 /**
  * This is where all begins .
@@ -41,6 +35,7 @@ public class MainApplication {
 	public MainApplication() throws Exception {
 
 		LoadXmlProperties lxp = new LoadXmlProperties();
+		ComposerNovomind cn = new ComposerNovomind();
 		GoogleApi api = new GoogleApi();
 		Properties properties = lxp.readProperties();
 
@@ -51,24 +46,31 @@ public class MainApplication {
 		googleAPIFilePath = properties.getProperty("google.file");
 
 		tts = new MarryTTS(voice);
-
+		String googleSTTService = "";
+		String nomiResponse;
 		while (true) {
 			int status = Integer.parseInt(readingFile(statusFilePath));
 			switch (status) {
 			case 4:
 
 				try {
-					String googleSTTService = api.POSTRequest(googleAPIFilePath, googleKey);
-					if (!googleSTTService.isEmpty())
-
-						tts.speak(googleSTTService);
-					else
+					googleSTTService = api.POSTRequest(googleAPIFilePath, googleKey);
+					if (!googleSTTService.isEmpty()) {
+						nomiResponse = cn.ask(googleSTTService);
+						if (!nomiResponse.isEmpty())
+							tts.speak(nomiResponse);
+					} else
 						tts.speak("I could not find anything of what you said, can you repeat please.");
-					writingIntoFile("2", statusFilePath);
+
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
+					tts.speak("I could not find anything of what you said, can you repeat please.");
 					e.printStackTrace();
 				}
+				if (Pattern.matches(".*(customer(|s) service(|s)).*", googleSTTService))
+					writingIntoFile("5", statusFilePath);
+				else
+					writingIntoFile("2", statusFilePath);
 				break;
 			default:
 				break;

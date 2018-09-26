@@ -61,7 +61,7 @@ public class GoogleApi {
 		StringBuffer response = new StringBuffer();
 		while ((inputLine = in.readLine()) != null) {
 			if (inputLine.contains("transcript"))
-				responseText = inputLine.split("\"transcript\": ")[1].replaceAll("\"", "");
+				responseText = inputLine.split("\"transcript\": ")[1].replaceAll("\"", "").replaceAll(",", "");
 			response.append(inputLine);
 		}
 		System.out.println(responseText);
