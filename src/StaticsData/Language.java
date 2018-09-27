@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum Language {
-	GERMAN("de"), ENGLISH("en");
+	GERMAN("de"), ENGLISH("en-US");
 
 	private String lang;
 

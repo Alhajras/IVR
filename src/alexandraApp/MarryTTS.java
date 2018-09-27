@@ -9,15 +9,14 @@ import marytts.signalproc.effects.JetPilotEffect;
 public class MarryTTS {
 
 	private final TextToSpeech tts = new TextToSpeech();
-	// private static boolean writingFlag = true;
 
 	public MarryTTS(VoicesTTS voice) {
 		// ---------------MaryTTS Configuration-----------------------------
 		//
-		tts.setVoice(voice.getVoice()); // male USA // best english voice
+		tts.setVoice(voice.getVoice()); // Male USA // Best English voice
 
-		// JetPilotEffect
-		JetPilotEffect jetPilotEffect = new JetPilotEffect(); // epic fun!!!
+		// JetPilotEffect to add sound effects
+		JetPilotEffect jetPilotEffect = new JetPilotEffect();
 		jetPilotEffect.setParams("amount:100");
 	}
 
@@ -27,19 +26,12 @@ public class MarryTTS {
 	 * @param text
 	 */
 	public void speak(String text) {
-		// if (writingFlag == false)
-		// return;
-
-		// writingFlag = false;
-		// Check if it is already speaking
 		if (!tts.isSpeaking())
 			try {
 				tts.speak(text, 2.0f, true, false);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		// writingFlag = true;
 	}
 
 }

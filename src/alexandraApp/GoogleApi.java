@@ -1,10 +1,10 @@
 package alexandraApp;
 
 // Imports the Google Cloud client library
-import com.google.cloud.speech.v1p1beta1.RecognitionAudio;
+//import com.google.cloud.speech.v1p1beta1.RecognitionAudio;
 import com.google.cloud.speech.v1p1beta1.RecognitionConfig;
 import com.google.cloud.speech.v1p1beta1.RecognitionConfig.AudioEncoding;
-import com.google.protobuf.ByteString;
+//import com.google.protobuf.ByteString;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,9 +14,9 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -29,14 +29,15 @@ public class GoogleApi {
 		String fileName = args[0];
 		// System.out.println(encodeFileToBase64Binary(fileName));
 		// Reads the audio file into memory
-		Path path = Paths.get(fileName);
-		byte[] data = Files.readAllBytes(path);
-		ByteString audioBytes = ByteString.copyFrom(data);
+		// Path path = Paths.get(fileName);
+		// byte[] data = Files.readAllBytes(path);
+		// ByteString audioBytes = ByteString.copyFrom(data);
 
 		// Builds the sync recognize request
 		RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.FLAC)
-				.setSampleRateHertz(16000).setLanguageCode("en-US").build();
-		RecognitionAudio audio = RecognitionAudio.newBuilder().setContent(audioBytes).build();
+				.setSampleRateHertz(16000).setLanguageCode(args[2]).build();
+		// RecognitionAudio audio =
+		// RecognitionAudio.newBuilder().setContent(audioBytes).build();
 		// System.out.println(audio.getUriBytes());
 		final String POST_PARAMS = "{\r\n" + "  \"config\": {\r\n" + "      \"encoding\": \"" + config.getEncoding()
 				+ "\",\r\n" + "      \"sampleRateHertz\": " + config.getSampleRateHertz() + ",\r\n"
@@ -53,7 +54,7 @@ public class GoogleApi {
 		os.write(POST_PARAMS.getBytes());
 		os.flush();
 		os.close();
-		int responseCode = postConnection.getResponseCode();
+		// int responseCode = postConnection.getResponseCode();
 		// System.out.println("POST Response Code : " + responseCode);
 		// System.out.println("POST Response Message : " +
 		// postConnection.getResponseMessage());

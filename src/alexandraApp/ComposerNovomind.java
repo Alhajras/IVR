@@ -12,6 +12,7 @@ public class ComposerNovomind {
 	private String showRoomNum = "showroom10";
 	private String url;
 	private String question = "main menu";
+	HttpURLConnection connection;
 
 	String ask(String question) throws IOException {
 		StringBuffer content = new StringBuffer();
@@ -21,12 +22,12 @@ public class ComposerNovomind {
 		URL URLLink;
 		try {
 			URLLink = new URL(url);
-			HttpURLConnection con = (HttpURLConnection) URLLink.openConnection();
-			con.setRequestProperty("Content-Type", "application/json");
-			con.setConnectTimeout(5000);
-			con.setRequestMethod("GET");
+			connection = (HttpURLConnection) URLLink.openConnection();
+			connection.setRequestProperty("Content-Type", "application/json");
+			connection.setConnectTimeout(5000);
+			connection.setRequestMethod("GET");
 
-			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String inputLine;
 
 			while ((inputLine = in.readLine()) != null) {
@@ -36,7 +37,7 @@ public class ComposerNovomind {
 
 			}
 			in.close();
-			con.disconnect();
+
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,5 +45,9 @@ public class ComposerNovomind {
 		}
 
 		return content.toString().split("\"response\"")[1].replaceAll("\"", "").replaceAll("\\\\n", "");
+	}
+
+	void closeTheConnection() {
+		connection.disconnect();
 	}
 }

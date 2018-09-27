@@ -13,7 +13,7 @@ import StaticsData.Language;
 import StaticsData.VoicesTTS;
 
 /**
- * This is where all begins .
+ * This is the main application of the IVR .
  * 
  * @author GOXR3PLUS
  *
@@ -54,9 +54,11 @@ public class MainApplication {
 			case 4:
 
 				try {
-					googleSTTService = api.POSTRequest(googleAPIFilePath, googleKey);
+					googleSTTService = api.POSTRequest(googleAPIFilePath, googleKey, language.getLang());
+					System.err.println("google: " + googleSTTService);
 					if (!googleSTTService.isEmpty()) {
 						nomiResponse = cn.ask(googleSTTService);
+						System.err.println("nomi: " + nomiResponse);
 						if (!nomiResponse.isEmpty())
 							tts.speak(nomiResponse);
 					} else
@@ -72,10 +74,19 @@ public class MainApplication {
 				else
 					writingIntoFile("2", statusFilePath);
 				break;
+
+			case 6:
+				nomiResponse = cn.ask("main menu");
+				System.out.println("Status 6: " + nomiResponse);
+				tts.speak(nomiResponse);
+				writingIntoFile("2", statusFilePath);
+				break;
+
 			default:
 				break;
 			}
 		}
+
 	}
 
 	public static String readingFile(String path) {
