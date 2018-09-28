@@ -28,23 +28,18 @@ public class GoogleApi {
 		// The path to the audio file to transcribe
 		String fileName = args[0];
 		// System.out.println(encodeFileToBase64Binary(fileName));
-		// Reads the audio file into memory
-		// Path path = Paths.get(fileName);
-		// byte[] data = Files.readAllBytes(path);
-		// ByteString audioBytes = ByteString.copyFrom(data);
 
 		// Builds the sync recognize request
 		RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.FLAC)
 				.setSampleRateHertz(16000).setLanguageCode(args[2]).build();
-		// RecognitionAudio audio =
-		// RecognitionAudio.newBuilder().setContent(audioBytes).build();
-		// System.out.println(audio.getUriBytes());
+
 		final String POST_PARAMS = "{\r\n" + "  \"config\": {\r\n" + "      \"encoding\": \"" + config.getEncoding()
 				+ "\",\r\n" + "      \"sampleRateHertz\": " + config.getSampleRateHertz() + ",\r\n"
 				+ "      \"languageCode\": \"" + config.getLanguageCode() + "\",\r\n"
 				+ "      \"enableWordTimeOffsets\": false\r\n" + "  },\r\n" + "  \"audio\": {\r\n"
 				+ "      \"content\":\"" + encodeFileToBase64Binary(fileName) + "\"\r\n" + "  }\r\n" + "}";
 		// System.out.println(POST_PARAMS);
+
 		URL obj = new URL("https://speech.googleapis.com/v1/speech:recognize?key=" + args[1]);
 		HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
 		postConnection.setRequestMethod("POST");
@@ -54,17 +49,15 @@ public class GoogleApi {
 		os.write(POST_PARAMS.getBytes());
 		os.flush();
 		os.close();
-		// int responseCode = postConnection.getResponseCode();
 		// System.out.println("POST Response Code : " + responseCode);
 		// System.out.println("POST Response Message : " +
 		// postConnection.getResponseMessage());
 		BufferedReader in = new BufferedReader(new InputStreamReader(postConnection.getInputStream()));
 		String inputLine;
-		StringBuffer response = new StringBuffer();
+
 		while ((inputLine = in.readLine()) != null) {
 			if (inputLine.contains("transcript"))
 				responseText = inputLine.split("\"transcript\": ")[1].replaceAll("\"", "").replaceAll(",", "");
-			response.append(inputLine);
 		}
 		// System.out.println(responseText);
 		in.close();
@@ -77,6 +70,7 @@ public class GoogleApi {
 		File file = new File(fileName);
 		byte[] encoded = Base64.encodeBase64(FileUtils.readFileToByteArray(file));
 		return new String(encoded, StandardCharsets.US_ASCII);
+
 	}
 
 }

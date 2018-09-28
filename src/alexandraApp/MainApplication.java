@@ -39,7 +39,10 @@ public class MainApplication {
 		ComposerNovomind cn = new ComposerNovomind();
 		GoogleApi api = new GoogleApi();
 		initializingProperties();
-		tts = new MarryTTS(voice,gainValue);
+		tts = new MarryTTS(voice, gainValue);
+
+		// get milliseconds.
+
 		String googleSTTService = "";
 		String nomiResponse;
 
@@ -49,13 +52,17 @@ public class MainApplication {
 			case 4:
 
 				try {
+
 					googleSTTService = api.POSTRequest(googleAPIFilePath, googleKey, language.getLang());
+
 					// System.err.println("google: " + googleSTTService.replaceAll("[-+.^:,]", ""));
 					if (!googleSTTService.isEmpty()) {
 						nomiResponse = cn.ask(googleSTTService.replaceAll("[-+.^:,]", ""), knowlowadgeBaseUrl);
 						// System.err.println("nomi: " + nomiResponse);
-						if (!nomiResponse.isEmpty())
+						if (!nomiResponse.isEmpty()) {
 							tts.speak(nomiResponse);
+						}
+
 					} else
 						tts.speak("I could not find anything of what you said, can you repeat please.");
 
@@ -101,7 +108,6 @@ public class MainApplication {
 	}
 
 	public static void writingIntoFile(String content, String path) {
-
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
 			bw.write(content);
 		} catch (IOException e) {
