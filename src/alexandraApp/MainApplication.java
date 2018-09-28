@@ -48,6 +48,7 @@ public class MainApplication {
 		tts = new MarryTTS(voice);
 		String googleSTTService = "";
 		String nomiResponse;
+
 		while (true) {
 			int status = Integer.parseInt(readingFile(statusFilePath));
 			switch (status) {
@@ -55,9 +56,9 @@ public class MainApplication {
 
 				try {
 					googleSTTService = api.POSTRequest(googleAPIFilePath, googleKey, language.getLang());
-					System.err.println("google: " + googleSTTService);
+					System.err.println("google: " + googleSTTService.replaceAll("[-+.^:,]", ""));
 					if (!googleSTTService.isEmpty()) {
-						nomiResponse = cn.ask(googleSTTService);
+						nomiResponse = cn.ask(googleSTTService.replaceAll("[-+.^:,]", ""));
 						System.err.println("nomi: " + nomiResponse);
 						if (!nomiResponse.isEmpty())
 							tts.speak(nomiResponse);
