@@ -9,10 +9,12 @@ import marytts.signalproc.effects.JetPilotEffect;
 public class MarryTTS {
 
 	private final TextToSpeech tts = new TextToSpeech();
+	private float voiceGain;
 
-	public MarryTTS(VoicesTTS voice) {
+	public MarryTTS(VoicesTTS voice, float voiceGain) {
 		// ---------------MaryTTS Configuration-----------------------------
 		//
+		this.voiceGain = voiceGain;
 		tts.setVoice(voice.getVoice()); // Male USA // Best English voice
 
 		// JetPilotEffect to add sound effects
@@ -28,7 +30,7 @@ public class MarryTTS {
 	public void speak(String text) {
 		if (!tts.isSpeaking())
 			try {
-				tts.speak(text, 2.0f, true, false);
+				tts.speak(text, voiceGain, true, false);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

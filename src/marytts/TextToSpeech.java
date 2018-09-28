@@ -177,7 +177,7 @@ public class TextToSpeech {
 
 	public static void fileDownSampler(String source, String destination)
 			throws InterruptedException, UnsupportedAudioFileException, IOException {
-		System.out.println("Converting the file into 8khz ");
+		// System.out.println("Converting the file into 8khz ");
 		File file = new File(source);
 		File output = new File(destination);
 
@@ -200,7 +200,7 @@ public class TextToSpeech {
 			int nWrittenBytes = 0;
 
 			nWrittenBytes = AudioSystem.write(eightKhzInputStream, targetFileType, output);
-			System.out.println("nWrittenBytes: " + nWrittenBytes);
+			// System.out.println("nWrittenBytes: " + nWrittenBytes);
 		}
 	}
 

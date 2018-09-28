@@ -26,6 +26,7 @@ public class MainApplication {
 	private static String knowlowadgeBaseUrl;
 	private static Language language = Language.ENGLISH;
 	private static VoicesTTS voice = VoicesTTS.ENGLISH_MALE_1;
+	private static float gainValue;
 	private final MarryTTS tts;
 
 	/**
@@ -38,7 +39,7 @@ public class MainApplication {
 		ComposerNovomind cn = new ComposerNovomind();
 		GoogleApi api = new GoogleApi();
 		initializingProperties();
-		tts = new MarryTTS(voice);
+		tts = new MarryTTS(voice,gainValue);
 		String googleSTTService = "";
 		String nomiResponse;
 
@@ -49,10 +50,10 @@ public class MainApplication {
 
 				try {
 					googleSTTService = api.POSTRequest(googleAPIFilePath, googleKey, language.getLang());
-					System.err.println("google: " + googleSTTService.replaceAll("[-+.^:,]", ""));
+					// System.err.println("google: " + googleSTTService.replaceAll("[-+.^:,]", ""));
 					if (!googleSTTService.isEmpty()) {
 						nomiResponse = cn.ask(googleSTTService.replaceAll("[-+.^:,]", ""), knowlowadgeBaseUrl);
-						System.err.println("nomi: " + nomiResponse);
+						// System.err.println("nomi: " + nomiResponse);
 						if (!nomiResponse.isEmpty())
 							tts.speak(nomiResponse);
 					} else
@@ -71,7 +72,7 @@ public class MainApplication {
 
 			case 6:
 				nomiResponse = cn.ask("main menu", knowlowadgeBaseUrl);
-				System.out.println("Status 6: " + nomiResponse);
+				// System.out.println("Status 6: " + nomiResponse);
 				tts.speak(nomiResponse);
 				writingIntoFile("2", statusFilePath);
 				break;
@@ -114,7 +115,8 @@ public class MainApplication {
 
 		googleKey = properties.getProperty("google.key");
 		language = Language.valueOf(properties.getProperty("language"));
-		voice = VoicesTTS.valueOf(properties.getProperty("voice"));
+		voice = VoicesTTS.valueOf(properties.getProperty("tts.voice"));
+		gainValue = Float.parseFloat(properties.getProperty("tts.gain"));
 		statusFilePath = properties.getProperty("file.status");
 		googleAPIFilePath = properties.getProperty("google.file");
 		knowlowadgeBaseUrl = properties.getProperty("knowlowadgeBaseUrl");

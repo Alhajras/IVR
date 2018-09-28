@@ -7,7 +7,8 @@
 		this is an old key for the mice usage -->
 	<entry key="google.file">D:\\IVR\\SharedFolderWinLinux\\asteriskOutput\\asterisk-recording.flac</entry>
 	<entry key="language">ENGLISH</entry>
-	<entry key="voice">ENGLISH_MALE_1</entry>
+	<entry key="tts.voice">ENGLISH_MALE_2</entry>
+	<entry key="tts.gain">2.0f</entry>
 	<entry key="file.status">D:\IVR\SharedFolderWinLinux\status.txt</entry>
 	<entry key="knowlowadgeBaseUrl">https://showroom10.novomind.com/nmIQ/api/rest/ask/</entry>
 </properties>
