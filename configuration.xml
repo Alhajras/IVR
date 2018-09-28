@@ -9,4 +9,5 @@
 	<entry key="language">ENGLISH</entry>
 	<entry key="voice">ENGLISH_MALE_1</entry>
 	<entry key="file.status">D:\IVR\SharedFolderWinLinux\status.txt</entry>
+	<entry key="knowlowadgeBaseUrl">https://showroom10.novomind.com/nmIQ/api/rest/ask/</entry>
 </properties>

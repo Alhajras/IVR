@@ -20,11 +20,12 @@ import StaticsData.VoicesTTS;
  */
 public class MainApplication {
 
-	private String statusFilePath;
-	private String googleAPIFilePath;
-	private String googleKey;
-	private Language language = Language.ENGLISH;
-	private VoicesTTS voice = VoicesTTS.ENGLISH_MALE_1;
+	private static String statusFilePath;
+	private static String googleAPIFilePath;
+	private static String googleKey;
+	private static String knowlowadgeBaseUrl;
+	private static Language language = Language.ENGLISH;
+	private static VoicesTTS voice = VoicesTTS.ENGLISH_MALE_1;
 	private final MarryTTS tts;
 
 	/**
@@ -34,17 +35,9 @@ public class MainApplication {
 	 */
 	public MainApplication() throws Exception {
 
-		LoadXmlProperties lxp = new LoadXmlProperties();
 		ComposerNovomind cn = new ComposerNovomind();
 		GoogleApi api = new GoogleApi();
-		Properties properties = lxp.readProperties();
-
-		googleKey = properties.getProperty("google.key");
-		language = Language.valueOf(properties.getProperty("language"));
-		voice = VoicesTTS.valueOf(properties.getProperty("voice"));
-		statusFilePath = properties.getProperty("file.status");
-		googleAPIFilePath = properties.getProperty("google.file");
-
+		initializingProperties();
 		tts = new MarryTTS(voice);
 		String googleSTTService = "";
 		String nomiResponse;
@@ -58,7 +51,7 @@ public class MainApplication {
 					googleSTTService = api.POSTRequest(googleAPIFilePath, googleKey, language.getLang());
 					System.err.println("google: " + googleSTTService.replaceAll("[-+.^:,]", ""));
 					if (!googleSTTService.isEmpty()) {
-						nomiResponse = cn.ask(googleSTTService.replaceAll("[-+.^:,]", ""));
+						nomiResponse = cn.ask(googleSTTService.replaceAll("[-+.^:,]", ""), knowlowadgeBaseUrl);
 						System.err.println("nomi: " + nomiResponse);
 						if (!nomiResponse.isEmpty())
 							tts.speak(nomiResponse);
@@ -77,7 +70,7 @@ public class MainApplication {
 				break;
 
 			case 6:
-				nomiResponse = cn.ask("main menu");
+				nomiResponse = cn.ask("main menu", knowlowadgeBaseUrl);
 				System.out.println("Status 6: " + nomiResponse);
 				tts.speak(nomiResponse);
 				writingIntoFile("2", statusFilePath);
@@ -113,6 +106,18 @@ public class MainApplication {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static void initializingProperties() throws Exception {
+		LoadXmlProperties lxp = new LoadXmlProperties();
+		Properties properties = lxp.readProperties();
+
+		googleKey = properties.getProperty("google.key");
+		language = Language.valueOf(properties.getProperty("language"));
+		voice = VoicesTTS.valueOf(properties.getProperty("voice"));
+		statusFilePath = properties.getProperty("file.status");
+		googleAPIFilePath = properties.getProperty("google.file");
+		knowlowadgeBaseUrl = properties.getProperty("knowlowadgeBaseUrl");
 	}
 
 	public static void main(String[] args) throws Exception {

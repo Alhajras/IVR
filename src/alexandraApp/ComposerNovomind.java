@@ -10,18 +10,16 @@ import java.net.URL;
 
 public class ComposerNovomind {
 
-	private String showRoomNum = "showroom10";
 	private String url;
-
 	private String cookie = "";
 	HttpURLConnection connection;
 
-	String ask(String question) throws IOException {
+	String ask(String question, String knowlowadgeBaseUrl) throws IOException {
 		StringBuffer content = new StringBuffer();
 		if (question.isEmpty())
 			question = "main menu";
 
-		this.url = "https://" + showRoomNum + ".novomind.com/nmIQ/api/rest/ask/" + question.replace(" ", "%20");
+		this.url = knowlowadgeBaseUrl + question.replace(" ", "%20");
 		URL URLLink;
 		try {
 			URLLink = new URL(url);
