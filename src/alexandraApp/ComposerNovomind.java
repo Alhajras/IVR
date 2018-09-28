@@ -7,31 +7,20 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.http.HttpClientConnection;
-import org.apache.http.HttpHost;
-
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.conn.ConnectionRequest;
-import org.apache.http.conn.HttpClientConnectionManager;
-import org.apache.http.conn.routing.HttpRoute;
-
-import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 
 public class ComposerNovomind {
 
 	private String showRoomNum = "showroom10";
 	private String url;
-	private String question = "main menu";
+
 	private String cookie = "";
 	HttpURLConnection connection;
 
 	String ask(String question) throws IOException {
-
 		StringBuffer content = new StringBuffer();
-		if (!question.isEmpty())
-			this.question = question;
+		if (question.isEmpty())
+			question = "main menu";
+
 		this.url = "https://" + showRoomNum + ".novomind.com/nmIQ/api/rest/ask/" + question.replace(" ", "%20");
 		URL URLLink;
 		try {
@@ -63,7 +52,6 @@ public class ComposerNovomind {
 			return "I could not find anything of what you said, can you repeat please.";
 		}
 
-		connection.disconnect();
 		return content.toString().split("\"response\"")[1].replaceAll("\"", "").replaceAll("\\\\n", "");
 	}
 
