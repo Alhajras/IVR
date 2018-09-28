@@ -1,4 +1,4 @@
-package alexandraApp;
+package nomiApp;
 
 // Imports the Google Cloud client library
 //import com.google.cloud.speech.v1p1beta1.RecognitionAudio;

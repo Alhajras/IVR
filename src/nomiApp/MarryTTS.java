@@ -1,4 +1,4 @@
-package alexandraApp;
+package nomiApp;
 
 import java.io.IOException;
 
