@@ -20,6 +20,7 @@ import StaticsData.VoicesTTS;
  */
 public class MainApplication {
 
+	private static Properties languageMessages;
 	private static String statusFilePath;
 	private static String googleAPIFilePath;
 	private static String googleKey;
@@ -64,11 +65,11 @@ public class MainApplication {
 						}
 
 					} else
-						tts.speak("I could not find anything of what you said, can you repeat please.");
+						tts.speak(languageMessages.getProperty("I_did_not_find_your_request"));
 
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					tts.speak("I could not find anything of what you said, can you repeat please.");
+					tts.speak(languageMessages.getProperty("I_did_not_find_your_request"));
 					e.printStackTrace();
 				}
 				if (Pattern.matches(".*(customer(|s) service(|s)).*", googleSTTService))
@@ -117,7 +118,7 @@ public class MainApplication {
 
 	private static void initializingProperties() throws Exception {
 		LoadXmlProperties lxp = new LoadXmlProperties();
-		Properties properties = lxp.readProperties();
+		Properties properties = lxp.readProperties("configuration.xml");
 
 		googleKey = properties.getProperty("google.key");
 		language = Language.valueOf(properties.getProperty("language"));
@@ -126,6 +127,10 @@ public class MainApplication {
 		statusFilePath = properties.getProperty("file.status");
 		googleAPIFilePath = properties.getProperty("google.file");
 		knowlowadgeBaseUrl = properties.getProperty("knowlowadgeBaseUrl");
+
+		languageMessages = lxp
+				.readProperties("src/LanguagesScripts/messages_" + language.getLang().replaceAll("-", "_") + ".xml");
+
 	}
 
 	public static void main(String[] args) throws Exception {

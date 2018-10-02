@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>Application Configuration</comment>
+	<entry key="I_did_not_find_your_request">I could not find anything of what you said, can you
+		repeat please.</entry>
+	<entry key="exception_has_happend">I am so sorry, but due to a technical issue, I can not
+		help you.</entry>
+	<entry key="call_customer_service">Do you want me to call the customer service for you.</entry>
+</properties>

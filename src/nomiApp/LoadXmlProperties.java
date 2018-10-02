@@ -5,16 +5,14 @@ import java.util.Properties;
 
 public class LoadXmlProperties {
 
-
 	public LoadXmlProperties() {
-		
+
 	}
 
-	Properties readProperties() throws Exception {
+	Properties readProperties(String filePath) throws Exception {
 		Properties properties = new Properties();
-		FileInputStream fis = new FileInputStream("configuration.xml");
+		FileInputStream fis = new FileInputStream(filePath);
 		properties.loadFromXML(fis);
-
 		return properties;
 	}
 
