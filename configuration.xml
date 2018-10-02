@@ -11,4 +11,6 @@
 	<entry key="tts.gain">2.0f</entry>
 	<entry key="file.status">D:\IVR\SharedFolderWinLinux\status.txt</entry>
 	<entry key="knowlowadgeBaseUrl">https://showroom10.novomind.com/nmIQ/api/rest/ask/</entry>
+	<entry key="historyRecord">true</entry>
+	<entry key="historyFilePath">D:\IVR\SharedFolderWinLinux\historyRecord.txt</entry>
 </properties>

@@ -29,6 +29,8 @@ public class MainApplication {
 	private static VoicesTTS voice = VoicesTTS.ENGLISH_MALE_1;
 	private static float gainValue;
 	private final MarryTTS tts;
+	private static boolean historyRecord;
+	private static String historyFilePath;
 
 	/**
 	 * Constructor
@@ -51,15 +53,15 @@ public class MainApplication {
 			int status = Integer.parseInt(readingFile(statusFilePath));
 			switch (status) {
 			case 4:
-
+				long startTime = System.currentTimeMillis();
 				try {
 
 					googleSTTService = api.POSTRequest(googleAPIFilePath, googleKey, language.getLang());
 
-					// System.err.println("google: " + googleSTTService.replaceAll("[-+.^:,]", ""));
+					System.err.println("google: " + googleSTTService.replaceAll("[-+.^:,]", ""));
 					if (!googleSTTService.isEmpty()) {
 						nomiResponse = cn.ask(googleSTTService.replaceAll("[-+.^:,]", ""), knowlowadgeBaseUrl);
-						// System.err.println("nomi: " + nomiResponse);
+						System.err.println("nomi: " + nomiResponse);
 						if (!nomiResponse.isEmpty()) {
 							tts.speak(nomiResponse);
 						}
@@ -73,16 +75,19 @@ public class MainApplication {
 					e.printStackTrace();
 				}
 				if (Pattern.matches(".*(customer(|s) service(|s)).*", googleSTTService))
-					writingIntoFile("5", statusFilePath);
+					writingIntoFile("5", statusFilePath, false);
 				else
-					writingIntoFile("2", statusFilePath);
+					writingIntoFile("2", statusFilePath, false);
+
+				long stopTime = System.currentTimeMillis();
+				System.err.println("the time in milliseconds is " + (stopTime - startTime));
 				break;
 
 			case 6:
 				nomiResponse = cn.ask("main menu", knowlowadgeBaseUrl);
 				// System.out.println("Status 6: " + nomiResponse);
 				tts.speak(nomiResponse);
-				writingIntoFile("2", statusFilePath);
+				writingIntoFile("2", statusFilePath, false);
 				break;
 
 			default:
@@ -108,7 +113,7 @@ public class MainApplication {
 		return sb.toString().replaceAll(" ", "");
 	}
 
-	public static void writingIntoFile(String content, String path) {
+	public static void writingIntoFile(String content, String path, boolean append) {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
 			bw.write(content);
 		} catch (IOException e) {
@@ -127,6 +132,8 @@ public class MainApplication {
 		statusFilePath = properties.getProperty("file.status");
 		googleAPIFilePath = properties.getProperty("google.file");
 		knowlowadgeBaseUrl = properties.getProperty("knowlowadgeBaseUrl");
+		historyFilePath = properties.getProperty("historyFilePath");
+		historyRecord = Boolean.parseBoolean(properties.getProperty("historyRecord"));
 
 		languageMessages = lxp
 				.readProperties("src/LanguagesScripts/messages_" + language.getLang().replaceAll("-", "_") + ".xml");
