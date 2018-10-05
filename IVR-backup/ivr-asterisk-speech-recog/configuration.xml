@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>Application Configuration</comment>
+	<entry key="google.key">AIzaSyDaAelunKyHPyVIlH2bCmlukMJNkjE-sxY</entry>
+	<!-- <entry key="google.key">AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw</entry> 
+		this is an old key for the mice usage -->
+	<entry key="google.file">D:\\IVR\\SharedFolderWinLinux\\asteriskOutput\\</entry>
+	<entry key="language">ENGLISH</entry>
+	<entry key="tts.voice">ENGLISH_MALE_2</entry>
+	<entry key="tts.gain">2.0f</entry>
+	<entry key="file.status">D:\IVR\SharedFolderWinLinux\status.txt</entry>
+	<entry key="knowlowadgeBaseUrl">https://showroom10.novomind.com/nmIQ/api/rest/ask/</entry>
+	<entry key="historyRecord">true</entry>
+	<entry key="historyFilePath">D:\IVR\SharedFolderWinLinux\historyRecord.txt</entry>
+	<entry key="customerServiceNumber">jan</entry>
+	
+</properties>
