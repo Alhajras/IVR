@@ -1,5 +1,9 @@
 package agi.script;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -55,34 +59,35 @@ public class HelloAgiScript extends BaseAgiScript {
 				exec("System", "cp -a /media/sf_SharedFolderWinLinux/marryTTSOutput/8k/. /var/lib/asterisk/sounds/en");
 				switch (statesMachine.getIndex()) {
 				case 1:
-					case1();
+					record();
 					break;
 
 				case 2:
-					case2();
+					playback();
 					break;
 
 				case 3:
-					case3();
+					convertFile();
 					break;
 
 				case 4:
-					case4();
+					processingRequest();
 					break;
 
 				case 5:
-					case5();
+					callCustomerService();
 					break;
 
 				case 6:
-					case6();
+					start();
 					break;
 
 				case 7:
-					case7();
+					checkingAuthentication();
 					break;
 
 				default:
+					hangup();
 					break;
 				}
 			} catch (Exception e) {
@@ -93,7 +98,7 @@ public class HelloAgiScript extends BaseAgiScript {
 		}
 	}
 
-	private void case1() {
+	private void record() {
 		try {
 			exec("Record", "asterisk-recording" + uniqueID + ":wav,2");
 			statesMachine = StatesMachine.CONVERTFILE;
@@ -103,34 +108,46 @@ public class HelloAgiScript extends BaseAgiScript {
 
 	}
 
-	public void case2() throws Exception {
+	public void playback() throws Exception {
 		streamFile("marryTTS" + uniqueID);
 		statesMachine = StatesMachine.RECORD;
 	}
 
-	private void case3() {
+	private void convertFile() {
+		long startTime = System.currentTimeMillis();
 		try {
 			exec("System", "sox /var/lib/asterisk/sounds/asterisk-recording" + uniqueID
 					+ ".wav --rate 16k --bits 16 /media/sf_SharedFolderWinLinux/asteriskOutput/asterisk-recording"
 					+ uniqueID + ".flac");
 			statesMachine = StatesMachine.PROCESSING_REQUEST;
+			long stopTime = System.currentTimeMillis();
+			writingIntoFileStatistics("SOXConversion took:" + (stopTime - startTime),
+					"D:\\IVR\\SharedFolderWinLinux\\statistics.txt");
 		} catch (AgiException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public void case4() throws Exception {
+	public void processingRequest() throws Exception {
+		long startTime = System.currentTimeMillis();
+
 		String googleSTTService = "";
 		String nomiResponse;
 		try {
 
 			googleSTTService = api.POSTRequest(googleAPIFilePath + "asterisk-recording" + uniqueID + ".flac", googleKey,
 					language.getLang());
-
+			long stopTime = System.currentTimeMillis();
+			writingIntoFileStatistics("googleSTTService took:" + (stopTime - startTime),
+					"D:\\IVR\\SharedFolderWinLinux\\statistics.txt");
 			System.err.println("google: " + googleSTTService.replaceAll("[-+.^:,]", ""));
 			if (!googleSTTService.isEmpty()) {
+				startTime = System.currentTimeMillis();
 				nomiResponse = cn.ask(googleSTTService.replaceAll("[-+.^:,]", ""), knowlowadgeBaseUrl);
+				stopTime = System.currentTimeMillis();
+				writingIntoFileStatistics("Nomi took:" + (stopTime - startTime),
+						"D:\\IVR\\SharedFolderWinLinux\\statistics.txt");
 				System.err.println("nomi: " + nomiResponse);
 				if (!nomiResponse.isEmpty()) {
 					tts.speak(nomiResponse, uniqueID);
@@ -152,7 +169,7 @@ public class HelloAgiScript extends BaseAgiScript {
 
 	}
 
-	private void case5() {
+	private void callCustomerService() {
 		try {
 			exec("Dial", "SIP/" + customerServiceNumber);
 		} catch (AgiException e) {
@@ -160,7 +177,7 @@ public class HelloAgiScript extends BaseAgiScript {
 		}
 	}
 
-	public void case6() throws Exception {
+	public void start() throws Exception {
 		String nomiResponse;
 		nomiResponse = cn.ask("main menu", knowlowadgeBaseUrl);
 		// System.out.println("Status 6: " + nomiResponse);
@@ -168,7 +185,7 @@ public class HelloAgiScript extends BaseAgiScript {
 		statesMachine = StatesMachine.PLAYBACK;
 	}
 
-	public void case7() throws Exception {
+	public void checkingAuthentication() throws Exception {
 
 		int numberOfTries = 0;
 		PIN = generatePIN();
@@ -210,6 +227,14 @@ public class HelloAgiScript extends BaseAgiScript {
 		x = x + 1;
 		String randomPIN = (x + "") + (((int) (Math.random() * 1000)) + "");
 		return randomPIN;
+	}
+
+	public static void writingIntoFileStatistics(String content, String path) {
+		try {
+			Files.write(Paths.get(path), (content + "/n;").getBytes(), StandardOpenOption.APPEND);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
