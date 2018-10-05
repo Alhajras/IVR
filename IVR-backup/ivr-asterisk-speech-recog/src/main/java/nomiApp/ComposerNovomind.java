@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/** This class is responsible for fetching the answer from Nomi */
 public class ComposerNovomind {
 
 	private String url;
@@ -18,7 +19,7 @@ public class ComposerNovomind {
 		StringBuffer content = new StringBuffer();
 		if (question.isEmpty())
 			question = "main menu";
-
+		/** Replacing the whie space with %20 for the GET HTTP request */
 		this.url = knowlowadgeBaseUrl + question.replace(" ", "%20");
 		URL URLLink;
 		try {
@@ -27,6 +28,10 @@ public class ComposerNovomind {
 			connection.setRequestProperty("Content-Type", "application/json");
 			connection.setConnectTimeout(50000);
 			connection.setRequestMethod("GET");
+			/**
+			 * It is crucial to save the cookie to maintain the session even if the user
+			 * Closed by mistake he can come back to the same place he left
+			 */
 			if (!cookie.isEmpty())
 				connection.setRequestProperty("Cookie", cookie);
 			connection.connect();
@@ -53,6 +58,7 @@ public class ComposerNovomind {
 		return content.toString().split("\"response\"")[1].replaceAll("\"", "").replaceAll("\\\\n", "");
 	}
 
+	/** Ending the session */
 	void closeTheConnection() {
 		connection.disconnect();
 	}

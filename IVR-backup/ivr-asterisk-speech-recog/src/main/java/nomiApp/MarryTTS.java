@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import StaticsData.VoicesTTS;
 import marytts.TextToSpeech;
-//import marytts.signalproc.effects.JetPilotEffect;
+//import marytts.signalproc.effects.JetPilotEffect; this is for sounds effects if needed
 
 public class MarryTTS {
 
@@ -18,8 +18,9 @@ public class MarryTTS {
 		tts.setVoice(voice.getVoice()); // Male USA // Best English voice
 
 		// JetPilotEffect to add sound effects
-//		JetPilotEffect jetPilotEffect = new JetPilotEffect();
-//		jetPilotEffect.setParams("amount:100");
+		// JetPilotEffect jetPilotEffect = new JetPilotEffect(); this is for sounds
+		// effects if needed
+		// jetPilotEffect.setParams("amount:100"); this is for sounds effects if needed
 	}
 
 	/**
@@ -27,10 +28,10 @@ public class MarryTTS {
 	 * 
 	 * @param text
 	 */
-	public void speak(String text,String callerId) {
+	public void speak(String text, String callerId) {
 		if (!tts.isSpeaking())
 			try {
-				tts.speak(text, voiceGain, true, false,callerId);
+				tts.speak(text, voiceGain, true, false, callerId);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

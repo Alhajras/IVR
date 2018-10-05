@@ -12,18 +12,19 @@ public class ScriptRun {
 
 	public static void main(String[] args) throws Exception {
 
+		/**
+		 * This thread is establishing an AGI service on port 4567, to connect and
+		 * listen to any AGI request from the Asterisk
+		 */
 		new Thread() {
 			public void run() {
 				HelloAgiScript agi = new HelloAgiScript();
 				try {
 					initializingProperties(agi);
-
 					DefaultAgiServer srv = new DefaultAgiServer(agi);
 					srv.setPort(4567);
-
 					srv.startup();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -31,6 +32,10 @@ public class ScriptRun {
 
 	}
 
+	/**
+	 * Reading the configuration.xml file in order to initialize the properties of
+	 * the IVR
+	 */
 	private static void initializingProperties(HelloAgiScript agi) throws Exception {
 		LoadXmlProperties lxp = new LoadXmlProperties();
 		Properties properties = lxp.readProperties("configuration.xml");

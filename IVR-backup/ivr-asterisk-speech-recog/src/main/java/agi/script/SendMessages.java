@@ -8,7 +8,7 @@ import org.asteriskjava.fastagi.BaseAgiScript;
 public class SendMessages extends BaseAgiScript {
 
 	public void service(AgiRequest request, AgiChannel channel) throws AgiException {
-		exec("SendText", "I hate my life");
+		exec("SendText", "Testing from the IVR");
 		hangup();
 	}
 

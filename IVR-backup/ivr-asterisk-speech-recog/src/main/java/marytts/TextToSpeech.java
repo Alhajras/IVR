@@ -29,7 +29,7 @@ import marytts.signalproc.effects.AudioEffect;
 import marytts.signalproc.effects.AudioEffects;
 
 /**
- * @author GOXR3PLUS
+ * @author GOXR3PLUS & Alhajras
  *
  */
 public class TextToSpeech {
@@ -172,7 +172,8 @@ public class TextToSpeech {
 	}
 
 	/**
-	 * Function to down-sample an audioFile from 16khz to 8khz
+	 * Function to down-sample an audioFile from 16khz to 8khz ,so it can be
+	 * readable from the Asterisk
 	 * 
 	 * @param voice
 	 */
