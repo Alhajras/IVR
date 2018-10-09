@@ -67,7 +67,7 @@ public class GoogleApi {
 	}
 
 	/** This function is responsible for encoding the given file into base64 */
-	private static String encodeFileToBase64Binary(String fileName) throws IOException {
+	private String encodeFileToBase64Binary(String fileName) throws IOException {
 		File file = new File(fileName);
 		byte[] encoded = Base64.encodeBase64(FileUtils.readFileToByteArray(file));
 		return new String(encoded, StandardCharsets.US_ASCII);

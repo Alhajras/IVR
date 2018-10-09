@@ -5,7 +5,7 @@
 	<entry key="google.key">AIzaSyDaAelunKyHPyVIlH2bCmlukMJNkjE-sxY</entry>
 	<!-- <entry key="google.key">AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw</entry> 
 		this is an old key for the mice usage -->
-	<entry key="google.file">D:\\IVR\\SharedFolderWinLinux\\asteriskOutput\\asterisk-recording.flac</entry>
+	<entry key="google.file">D:\\IVR\\SharedFolderWinLinux\\testMarry\\</entry>
 	<entry key="language">ENGLISH</entry>
 	<entry key="tts.voice">ENGLISH_MALE_2</entry>
 	<entry key="tts.gain">2.0f</entry>

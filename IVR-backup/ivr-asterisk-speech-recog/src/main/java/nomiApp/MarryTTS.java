@@ -3,9 +3,13 @@ package nomiApp;
 import java.io.IOException;
 
 import StaticsData.VoicesTTS;
+import lombok.Getter;
+import lombok.Setter;
 import marytts.TextToSpeech;
-//import marytts.signalproc.effects.JetPilotEffect; this is for sounds effects if needed
 
+//import marytts.signalproc.effects.JetPilotEffect; this is for sounds effects if needed
+@Getter
+@Setter
 public class MarryTTS {
 
 	private final TextToSpeech tts = new TextToSpeech();

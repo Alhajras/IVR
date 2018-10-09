@@ -21,6 +21,7 @@ import lombok.Setter;
 import nomiApp.ComposerNovomind;
 import nomiApp.GoogleApi;
 import nomiApp.MarryTTS;
+import opennlp.tools.formats.Conll02NameSampleStream.LANGUAGE;
 
 /**
  * The Getter and Setter annotation are provided by the Lombok project, it
@@ -50,11 +51,12 @@ public class HelloAgiScript extends BaseAgiScript {
 
 	public void service(AgiRequest request, AgiChannel channel) throws AgiException {
 		/** Answer the channel... */
+
 		answer();
 		cn = new ComposerNovomind();
 		api = new GoogleApi();
 		tts = new MarryTTS(voice, gainValue);
-
+		// testingGoogleAPIPerformance();
 		/** Checking the current state-machine of the program */
 		while (true) {
 			try {
@@ -96,6 +98,10 @@ public class HelloAgiScript extends BaseAgiScript {
 					checkingAuthentication();
 					break;
 
+				case 8:
+					ChangingLanguage();
+					break;
+
 				default:
 					// If any error has been occurred we just close the connection
 					hangup();
@@ -107,6 +113,24 @@ public class HelloAgiScript extends BaseAgiScript {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * This function is for changing the language from the standard English to the
+	 * German when the user choose to change
+	 */
+	private void ChangingLanguage() {
+		tts.getTts().setVoice(VoicesTTS.GERMAN_MALE_1.getVoice());
+		this.language = Language.GERMAN;
+		/**
+		 * Since only the English knowlowdgeBase does exist, this line is commented out,
+		 * in the future a German version must be implemented and changing the next line
+		 * to something like https://showroom11.novomind.com/nmIQ/api/rest/ask/
+		 */
+		// this.knowlowadgeBaseUrl = "";#
+
+		tts.speak("Ich habe die sprache verändert, was kann ich für Sie tun?", uniqueID);
+		statesMachine = StatesMachine.PLAYBACK;
 	}
 
 	/**
@@ -174,6 +198,9 @@ public class HelloAgiScript extends BaseAgiScript {
 			long stopTime = System.currentTimeMillis();
 			writingIntoFileStatistics("googleSTTService took:" + (stopTime - startTime),
 					"D:\\IVR\\SharedFolderWinLinux\\statistics.txt");
+			writingIntoFileStatistics(
+					"Number of words: " + googleSTTService.split(" ").length + " ;took:" + (stopTime - startTime),
+					"D:\\IVR\\SharedFolderWinLinux\\googleAPIWords.txt");
 			System.err.println("google: " + googleSTTService.replaceAll("[-+.^:,]", ""));
 			if (!googleSTTService.isEmpty()) {
 				startTime = System.currentTimeMillis();
@@ -203,6 +230,9 @@ public class HelloAgiScript extends BaseAgiScript {
 		else if (Pattern.matches(".*(authentication(|s) need(|ed)).*", googleSTTService)) {
 			/** Creating a Two-factor authentication when the service is critical */
 			statesMachine = StatesMachine.CHECKING_AUTHENTICATION;
+		} else if (Pattern.matches(".*(German|deutsch).*", googleSTTService)) {
+			/** Creating a Two-factor authentication when the service is critical */
+			statesMachine = StatesMachine.CHANGING_LANGUAGE;
 		} else
 			statesMachine = StatesMachine.PLAYBACK;
 

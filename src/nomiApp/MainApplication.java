@@ -43,7 +43,6 @@ public class MainApplication {
 		GoogleApi api = new GoogleApi();
 		initializingProperties();
 		tts = new MarryTTS(voice, gainValue);
-
 		// get milliseconds.
 
 		String googleSTTService = "";
