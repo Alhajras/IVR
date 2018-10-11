@@ -60,7 +60,6 @@ public class HelloAgiScript extends BaseAgiScript {
 		/** Checking the current state-machine of the program */
 		while (true) {
 			try {
-				checkingAuthentication();
 				/**
 				 * This is a hack to copy the voice file in the Asterisk voice path in order to
 				 * read it, you can delete this line but the 'astdatadir' property in the
