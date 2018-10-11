@@ -34,19 +34,18 @@ public class MainApp {
 		 * This code is to create a new port listener for a separate customer, and for
 		 * each new customer or caller we need to add a new listener
 		 */
-		// new Thread() {
-		// public void run() {
-		// HelloAgiScript agi = new HelloAgiScript();
-		// try {
-		// initializingProperties(agi);
-		// DefaultAgiServer srv = new DefaultAgiServer(agi);
-		// srv.setPort(4577);
-		// srv.startup();
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// }.start();
+//		 new Thread() {
+//		 public void run() {
+//		 HelloAgiScriptText agiText = new HelloAgiScriptText();
+//		 try {
+//		 DefaultAgiServer srv = new DefaultAgiServer(agiText);
+//		 srv.setPort(4577);
+//		 srv.startup();
+//		 } catch (Exception e) {
+//		 e.printStackTrace();
+//		 }
+//		 }
+//		 }.start();
 
 	}
 

@@ -5,4 +5,8 @@
 	<entry key="I_did_not_find_your_request">Ich konnte nichts von dem finden, was du gesagt hast, kannst du bitte wiederholen.</entry>
 	<entry key="exception_has_happend">Es tut mir so leid, aber aufgrund eines technischen Problems, kann ich Ihnen nicht helfen.</entry>
 	<entry key="call_customer_service">Willst du, dass ich den Kundendienst f\uFFFDr dich anrufe.</entry>
+	<entry key="authentication_needed">Dieser Dienst benötigt einen Authentifizierungscode, bitte sagen Sie die vier Ziffern des PIN-Codes nach dem Signalton.</entry>
+	<entry key="invalid_pin">Ihre Eingabe ist ungültig, bitte wiederholen Sie die PIN-Nummer..</entry>
+	<entry key="goodbye">Ich hoffe, dass ich dir geholfen habe, einen schönen Tag noch.</entry>
+	<entry key="Your_entry_is_correct">Ihre Eingabe ist korrekt.</entry>
 </properties>

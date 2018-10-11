@@ -7,4 +7,8 @@
 	<entry key="exception_has_happend">I am so sorry, but due to a technical issue, I can not
 		help you.</entry>
 	<entry key="call_customer_service">Do you want me to call the customer service for you.</entry>
+	<entry key="authentication_needed">This service needs an authentication code, please say the four PIN code digits after the beep.</entry>
+	<entry key="invalid_pin">Your entry is invalid.Please repeat the PIN number.</entry>
+	<entry key="goodbye">I hope that I helped you, Have a good day.</entry>
+	<entry key="Your_entry_is_correct">Your entry is correct.</entry>
 </properties>

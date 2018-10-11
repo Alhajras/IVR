@@ -21,7 +21,6 @@ import lombok.Setter;
 import nomiApp.ComposerNovomind;
 import nomiApp.GoogleApi;
 import nomiApp.MarryTTS;
-import opennlp.tools.formats.Conll02NameSampleStream.LANGUAGE;
 
 /**
  * The Getter and Setter annotation are provided by the Lombok project, it
@@ -48,6 +47,7 @@ public class HelloAgiScript extends BaseAgiScript {
 	private String customerServiceNumber;
 	StatesMachine statesMachine = StatesMachine.START;
 	private String uniqueID = UUID.randomUUID().toString();
+	private short numberOfSilence = 0;
 
 	public void service(AgiRequest request, AgiChannel channel) throws AgiException {
 		/** Answer the channel... */
@@ -60,6 +60,7 @@ public class HelloAgiScript extends BaseAgiScript {
 		/** Checking the current state-machine of the program */
 		while (true) {
 			try {
+				checkingAuthentication();
 				/**
 				 * This is a hack to copy the voice file in the Asterisk voice path in order to
 				 * read it, you can delete this line but the 'astdatadir' property in the
@@ -213,11 +214,15 @@ public class HelloAgiScript extends BaseAgiScript {
 					tts.speak(nomiResponse, uniqueID);
 				}
 
-			} else
+			} else {
 				tts.speak(languageMessages.getProperty("I_did_not_find_your_request"), uniqueID);
+				if (numberOfSilence++ == 2)
+					hangup();
+			}
 
 		} catch (Exception e) {
-			tts.speak(languageMessages.getProperty("I_did_not_find_your_request"), uniqueID);
+			tts.speak(languageMessages.getProperty("goodbye"), uniqueID);
+			hangup();
 			e.printStackTrace();
 		}
 
@@ -266,27 +271,26 @@ public class HelloAgiScript extends BaseAgiScript {
 	public void checkingAuthentication() throws Exception {
 
 		int numberOfTries = 0;
-		PIN = generatePIN();
-		setVariable("PIN", PIN);
+		PIN = getVariable("PIN");
 		try {
-			exec("Gosub", "sending-PIN", "${EXTEN:1}", "1");
-			tts.speak(languageMessages.getProperty(
-					"This service needs an authentication code, please say the four PIN code digits after the beep"),
-					uniqueID);
+			tts.speak(languageMessages.getProperty("authentication_needed"), uniqueID);
 			while (true) {
 				exec("System", "cp -a /media/sf_SharedFolderWinLinux/marryTTSOutput/8k/. /var/lib/asterisk/sounds/en");
 				streamFile("marryTTS" + uniqueID);
 				exec("Record", "asterisk-recording" + uniqueID + ":wav,2");
+				exec("System", "sox /var/lib/asterisk/sounds/asterisk-recording" + uniqueID
+						+ ".wav --rate 16k --bits 16 /media/sf_SharedFolderWinLinux/asteriskOutput/asterisk-recording"
+						+ uniqueID + ".flac");
 				String googleSTTService = api.POSTRequest(googleAPIFilePath + "asterisk-recording" + uniqueID + ".flac",
 						googleKey, language.getLang());
-				if (googleSTTService.equals(PIN)) {
-					tts.speak(languageMessages.getProperty("Your entry is correct."), uniqueID);
+				System.err.println("the pin is : " + PIN + " google pin : " + googleSTTService);
+				if (Integer.parseInt(googleSTTService.replaceAll(" ", "")) == (Integer.parseInt(PIN))) {
+					tts.speak(languageMessages.getProperty("Your_entry_is_correct"), uniqueID);
 					cn.ask("VALID", knowlowadgeBaseUrl);
 					break;
 				} else {
 					numberOfTries++;
-					tts.speak(languageMessages.getProperty("Your entry is invalid.Please repeate the PIN number"),
-							uniqueID);
+					tts.speak(languageMessages.getProperty("invalid_pin"), uniqueID);
 					if (numberOfTries == 3) {
 						hangup();
 						break;
