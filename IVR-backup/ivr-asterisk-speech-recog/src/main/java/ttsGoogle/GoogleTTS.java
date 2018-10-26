@@ -36,15 +36,13 @@ public class GoogleTTS implements TTSInterface {
 	 * @param text
 	 */
 	public void speak(String text, String callerId) {
-		System.out.println(text);
-
 		// Create a new Thread because JLayer is running on the current Thread and will
 		// make the application to lag
 		try {
 			// Create a JLayer instance
 			AdvancedPlayer player = new AdvancedPlayer(synthesizer.getMP3Data(text));
 
-			File file = new File("D:\\IVR\\SharedFolderWinLinux\\marryTTSOutput\\16k\\marryTTS.mp3");
+			File file = new File("D:\\IVR\\SharedFolderWinLinux\\marryTTSOutput\\8k\\marryTTS" + callerId + ".mp3");
 			try {
 				InputStream in = synthesizer.getMP3Data(text);
 				OutputStream out = new FileOutputStream(file);
@@ -58,9 +56,9 @@ public class GoogleTTS implements TTSInterface {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			player.play();
-
-			System.out.println("Successfully got back synthesizer data");
+			// player.play();
+			//
+			// System.out.println("Successfully got back synthesizer data");
 
 		} catch (IOException | JavaLayerException e) {
 

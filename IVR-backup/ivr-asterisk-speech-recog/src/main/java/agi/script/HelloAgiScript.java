@@ -8,6 +8,7 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.asteriskjava.fastagi.AgiChannel;
 import org.asteriskjava.fastagi.AgiException;
 import org.asteriskjava.fastagi.AgiRequest;
@@ -32,6 +33,7 @@ import ttsGoogle.GoogleTTS;
 @Getter
 public class HelloAgiScript extends BaseAgiScript {
 	/** The variables of the HelloAgiScript class */
+	private static final Logger LOGGER = Logger.getLogger(HelloAgiScript.class.getName());
 	private Properties languageMessages;
 	private String statusFilePath;
 	private String googleAPIFilePath;
@@ -53,20 +55,22 @@ public class HelloAgiScript extends BaseAgiScript {
 	StatesMachine statesMachine = StatesMachine.START;
 	private String uniqueID = UUID.randomUUID().toString();
 	private short numberOfSilence = 0;
+	private String fileFormat = "wav";
 
 	public void service(AgiRequest request, AgiChannel channel) throws AgiException {
 		/** Answer the channel... */
-
+		LOGGER.info(" Answering the phone call from:" + request.getCallerIdName());
 		answer();
 		cn = new ComposerNovomind();
 		api = new GoogleApi();
 		googleTts = new GoogleTTS();
 		maryTts = new MaryTTS(voice, gainValue);
-		if (ttsTechnology.equals("google"))
+		if (ttsTechnology.equals("google")) {
 			ttsInterface = googleTts;
-		else
+			fileFormat = "mp3";
+		} else
 			ttsInterface = maryTts;
-//		testingGoogleAPIPerformance();
+		// testingGoogleAPIPerformance();
 		/** Checking the current state-machine of the program */
 		while (true) {
 			try {
@@ -165,6 +169,10 @@ public class HelloAgiScript extends BaseAgiScript {
 	 * uniqueID
 	 */
 	public void playback() throws Exception {
+		if (fileFormat.equals("mp3")) {
+			exec("System", "sox /var/lib/asterisk/sounds/en/marryTTS" + uniqueID
+					+ ".mp3 --rate 8k --bits 16 /var/lib/asterisk/sounds/en/marryTTS" + uniqueID + ".wav");
+		}
 		streamFile("marryTTS" + uniqueID);
 		statesMachine = StatesMachine.RECORD;
 	}
@@ -178,6 +186,8 @@ public class HelloAgiScript extends BaseAgiScript {
 	private void convertFile() {
 		long startTime = System.currentTimeMillis();
 		try {
+			LOGGER.warn(
+					"Converting file is running this might throw an error of an supported format, or file not found!");
 			exec("System", "sox /var/lib/asterisk/sounds/asterisk-recording" + uniqueID
 					+ ".wav --rate 16k --bits 16 /media/sf_SharedFolderWinLinux/asteriskOutput/asterisk-recording"
 					+ uniqueID + ".flac");
@@ -258,6 +268,7 @@ public class HelloAgiScript extends BaseAgiScript {
 	 */
 	private void callCustomerService() {
 		try {
+			LOGGER.info("Calling customers service: " + customerServiceNumber);
 			exec("Dial", "SIP/" + customerServiceNumber);
 		} catch (AgiException e) {
 			e.printStackTrace();
@@ -278,7 +289,7 @@ public class HelloAgiScript extends BaseAgiScript {
 	 * caller Phone with a valid PIN number for security reasons
 	 */
 	public void checkingAuthentication() throws Exception {
-
+		LOGGER.warn("This service needs authentication!");
 		int numberOfTries = 0;
 		PIN = getVariable("PIN");
 		try {
