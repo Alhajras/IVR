@@ -40,6 +40,7 @@ public class ScriptRun {
 		LoadXmlProperties lxp = new LoadXmlProperties();
 		Properties properties = lxp.readProperties("configuration.xml");
 		agi.setGoogleKey(properties.getProperty("google.key"));
+//		agi.setTtsTechnology(properties.getProperty("ttsTechnology"));
 		agi.setLanguage(Language.valueOf(properties.getProperty("language")));
 		agi.setVoice(VoicesTTS.valueOf(properties.getProperty("tts.voice")));
 		agi.setGainValue(Float.parseFloat(properties.getProperty("tts.gain")));

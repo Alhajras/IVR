@@ -16,11 +16,13 @@ import org.asteriskjava.fastagi.BaseAgiScript;
 import StaticsData.Language;
 import StaticsData.StatesMachine;
 import StaticsData.VoicesTTS;
+import interfaces.TTSInterface;
 import lombok.Getter;
 import lombok.Setter;
 import nomiApp.ComposerNovomind;
 import nomiApp.GoogleApi;
-import nomiApp.MarryTTS;
+import nomiApp.MaryTTS;
+import ttsGoogle.GoogleTTS;
 
 /**
  * The Getter and Setter annotation are provided by the Lombok project, it
@@ -34,11 +36,14 @@ public class HelloAgiScript extends BaseAgiScript {
 	private String statusFilePath;
 	private String googleAPIFilePath;
 	private String googleKey;
+	private String ttsTechnology;
 	private String knowlowadgeBaseUrl;
 	private Language language = Language.ENGLISH;
 	private VoicesTTS voice = VoicesTTS.ENGLISH_MALE_1;
 	private float gainValue;
-	private MarryTTS tts;
+	private MaryTTS maryTts;
+	private GoogleTTS googleTts;
+	private TTSInterface ttsInterface;
 	private boolean historyRecord;
 	private String historyFilePath;
 	private GoogleApi api;
@@ -55,8 +60,13 @@ public class HelloAgiScript extends BaseAgiScript {
 		answer();
 		cn = new ComposerNovomind();
 		api = new GoogleApi();
-		tts = new MarryTTS(voice, gainValue);
-		// testingGoogleAPIPerformance();
+		googleTts = new GoogleTTS();
+		maryTts = new MaryTTS(voice, gainValue);
+		if (ttsTechnology.equals("google"))
+			ttsInterface = googleTts;
+		else
+			ttsInterface = maryTts;
+//		testingGoogleAPIPerformance();
 		/** Checking the current state-machine of the program */
 		while (true) {
 			try {
@@ -108,7 +118,7 @@ public class HelloAgiScript extends BaseAgiScript {
 					break;
 				}
 			} catch (Exception e) {
-				tts.speak(languageMessages.getProperty("I_did_not_find_your_request"), uniqueID);
+				ttsInterface.speak(languageMessages.getProperty("I_did_not_find_your_request"), uniqueID);
 				hangup();
 				e.printStackTrace();
 			}
@@ -120,7 +130,7 @@ public class HelloAgiScript extends BaseAgiScript {
 	 * German when the user choose to change
 	 */
 	private void ChangingLanguage() {
-		tts.getTts().setVoice(VoicesTTS.GERMAN_MALE_1.getVoice());
+		maryTts.getTts().setVoice(VoicesTTS.GERMAN_MALE_1.getVoice());
 		this.language = Language.GERMAN;
 		/**
 		 * Since only the English knowlowdgeBase does exist, this line is commented out,
@@ -129,7 +139,7 @@ public class HelloAgiScript extends BaseAgiScript {
 		 */
 		// this.knowlowadgeBaseUrl = "";#
 
-		tts.speak("Ich habe die sprache verändert, was kann ich für Sie tun?", uniqueID);
+		ttsInterface.speak("Ich habe die sprache verändert, was kann ich für Sie tun?", uniqueID);
 		statesMachine = StatesMachine.PLAYBACK;
 	}
 
@@ -210,17 +220,17 @@ public class HelloAgiScript extends BaseAgiScript {
 						"D:\\IVR\\SharedFolderWinLinux\\statistics.txt");
 				System.err.println("nomi: " + nomiResponse);
 				if (!nomiResponse.isEmpty()) {
-					tts.speak(nomiResponse, uniqueID);
+					ttsInterface.speak(nomiResponse, uniqueID);
 				}
 
 			} else {
-				tts.speak(languageMessages.getProperty("I_did_not_find_your_request"), uniqueID);
+				ttsInterface.speak(languageMessages.getProperty("I_did_not_find_your_request"), uniqueID);
 				if (numberOfSilence++ == 2)
 					hangup();
 			}
 
 		} catch (Exception e) {
-			tts.speak(languageMessages.getProperty("goodbye"), uniqueID);
+			ttsInterface.speak(languageMessages.getProperty("goodbye"), uniqueID);
 			hangup();
 			e.printStackTrace();
 		}
@@ -259,7 +269,7 @@ public class HelloAgiScript extends BaseAgiScript {
 		String nomiResponse;
 		nomiResponse = cn.ask("main menu", knowlowadgeBaseUrl);
 		// System.out.println("Status 6: " + nomiResponse);
-		tts.speak(nomiResponse, uniqueID);
+		ttsInterface.speak(nomiResponse, uniqueID);
 		statesMachine = StatesMachine.PLAYBACK;
 	}
 
@@ -272,7 +282,7 @@ public class HelloAgiScript extends BaseAgiScript {
 		int numberOfTries = 0;
 		PIN = getVariable("PIN");
 		try {
-			tts.speak(languageMessages.getProperty("authentication_needed"), uniqueID);
+			ttsInterface.speak(languageMessages.getProperty("authentication_needed"), uniqueID);
 			while (true) {
 				exec("System", "cp -a /media/sf_SharedFolderWinLinux/marryTTSOutput/8k/. /var/lib/asterisk/sounds/en");
 				streamFile("marryTTS" + uniqueID);
@@ -284,12 +294,12 @@ public class HelloAgiScript extends BaseAgiScript {
 						googleKey, language.getLang());
 				System.err.println("the pin is : " + PIN + " google pin : " + googleSTTService);
 				if (Integer.parseInt(googleSTTService.replaceAll(" ", "")) == (Integer.parseInt(PIN))) {
-					tts.speak(languageMessages.getProperty("Your_entry_is_correct"), uniqueID);
+					ttsInterface.speak(languageMessages.getProperty("Your_entry_is_correct"), uniqueID);
 					cn.ask("VALID", knowlowadgeBaseUrl);
 					break;
 				} else {
 					numberOfTries++;
-					tts.speak(languageMessages.getProperty("invalid_pin"), uniqueID);
+					ttsInterface.speak(languageMessages.getProperty("invalid_pin"), uniqueID);
 					if (numberOfTries == 3) {
 						hangup();
 						break;
